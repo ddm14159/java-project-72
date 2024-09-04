@@ -27,6 +27,9 @@ dependencies {
     implementation("org.jsoup:jsoup:1.17.2")
 
     implementation("org.slf4j:slf4j-simple:2.0.13")
+
+    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("com.h2database:h2:2.2.220")
 }
 
 tasks.test {
