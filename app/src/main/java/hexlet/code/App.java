@@ -53,9 +53,9 @@ public class App {
         BaseRepository.dataSource = dataSource;
 
         var app = Javalin.create(config -> {
-                    config.bundledPlugins.enableDevLogging();
-                    config.fileRenderer(new JavalinJte(createTemplateEngine()));
-                });
+            config.bundledPlugins.enableDevLogging();
+            config.fileRenderer(new JavalinJte(createTemplateEngine()));
+        });
 
         app.get(NamedRoutes.rootPath(), UrlsController::build);
         app.get(NamedRoutes.buildPath(), UrlsController::build);
