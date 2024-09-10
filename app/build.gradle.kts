@@ -4,6 +4,7 @@ plugins {
     java
     jacoco
     id("io.freefair.lombok") version "8.6"
+    id("gg.jte.gradle") version("3.1.12")
 }
 
 group = "hexlet.code"
@@ -68,4 +69,8 @@ tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+}
+
+jte {
+    precompile()
 }
