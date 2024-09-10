@@ -53,9 +53,9 @@ public class UrlsController {
 
             var protocol = rawUrl.getProtocol();
             var host = rawUrl.getHost();
-            var port = rawUrl.getPort() == -1 ? "" : rawUrl.getPort();
+            var port = rawUrl.getPort() == -1 ? "" : ":" + rawUrl.getPort();
 
-            var parsedUrl = protocol + "://" + host + ":" + port;
+            var parsedUrl = protocol + "://" + host + port;
 
             if (UrlRepository.find(parsedUrl).isPresent()) {
                 ctx.sessionAttribute("flash", "Страница уже существует");
