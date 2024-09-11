@@ -6,17 +6,42 @@
 page = page,
 content = @`
     <div class="text-center">
-        <h1>Urls</h1>
+        <h1 class="mb-4">Сайты</h1>
         @if(page.getUrls().isEmpty())
-            <p>Url list is empty</p>
+            <p>Список URL пуст</p>
         @else
-            <div class="list-group">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя</th>
+                    <th>Последняя проверка</th>
+                    <th>Код ответа</th>
+                </tr>
+                </thead>
+                <tbody>
                 @for(var url : page.getUrls())
-                    <a href="${NamedRoutes.urlPath(url.getId())}" class="list-group-item list-group-item-action">
-                        ${url.getName()}
-                    </a>
+                    <tr>
+                        <td>${url.getId()}</td>
+                        <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
+                        <td>
+                            @if(page.getLastChecks().get(url.getId()) != null)
+                                ${page.getLastChecks().get(url.getId()).getParsedDate()}
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>
+                            @if(page.getLastChecks().get(url.getId()) != null)
+                                ${page.getLastChecks().get(url.getId()).getStatusCode()}
+                            @else
+                                -
+                            @endif
+                        </td>
+                    </tr>
                 @endfor
-            </div>
+                </tbody>
+            </table>
         @endif
     </div>
 `

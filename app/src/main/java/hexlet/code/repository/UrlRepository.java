@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class UrlRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
-        var sql = "INSERT INTO urls (name, createdAt) VALUES (?, ?)";
+        var sql = "INSERT INTO urls (name, created_at) VALUES (?, ?)";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, url.getName());
@@ -39,7 +39,7 @@ public class UrlRepository extends BaseRepository {
 
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
-                var createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+                var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
                 var url = new Url(name);
                 url.setId(id);
@@ -61,7 +61,7 @@ public class UrlRepository extends BaseRepository {
 
             if (resultSet.next()) {
                 var id = resultSet.getLong("id");
-                var createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+                var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
                 var url = new Url(name);
                 url.setId(id);
@@ -84,7 +84,7 @@ public class UrlRepository extends BaseRepository {
             while (resultSet.next()) {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
-                var createdAt = resultSet.getTimestamp("createdAt").toLocalDateTime();
+                var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
                 var url = new Url(name);
                 url.setId(id);

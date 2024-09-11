@@ -6,18 +6,23 @@ import hexlet.code.dto.BasePage;
 import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
-
 import java.net.URI;
+import java.security.InvalidParameterException;
 import java.sql.SQLException;
+import kong.unirest.Unirest;
+import org.jsoup.Jsoup;
 
 public class UrlsController {
     public static void index(Context ctx) throws SQLException {
         var urls = UrlRepository.getEntities();
-        var page = new UrlsPage(urls);
+        var lastChecks = UrlCheckRepository.getLastChecks();
+        var page = new UrlsPage(urls, lastChecks);
         String flash = ctx.consumeSessionAttribute("flash");
         page.setFlash(flash);
 
@@ -28,7 +33,8 @@ public class UrlsController {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
-        var page = new UrlPage(url);
+        var checks = url.getChecks();
+        var page = new UrlPage(url, checks);
 
         ctx.render("urls/show.jte", model("page", page));
     }
@@ -71,5 +77,33 @@ public class UrlsController {
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.redirect(NamedRoutes.buildPath());
         }
+    }
+
+    public static void check(Context ctx) throws SQLException {
+        var id = ctx.pathParamAsClass("id", Long.class).get();
+        var optionalUrl = UrlRepository.find(id);
+
+        if (optionalUrl.isEmpty()) {
+            throw new InvalidParameterException("No url found in DB with id " + id);
+        }
+
+        var url = optionalUrl.get();
+        var response = Unirest.get(url.getName()).asString();
+        var status = response.getStatus();
+        var body = response.getBody();
+        var document = Jsoup.parse(body);
+        var title = document.title();
+        var h1 = document.selectFirst("h1") != null
+                ? document.selectFirst("h1").text()
+                : "";
+        var description = document.selectFirst("meta[name=description]") != null
+                ? document.selectFirst("meta[name=description]").text()
+                : "";
+
+        var check = new UrlCheck(id, status, title, h1, description);
+        UrlCheckRepository.save(check);
+        ctx.redirect(NamedRoutes.urlPath(id));
+        System.out.println(response.getBody());
+        System.out.println(status);
     }
 }

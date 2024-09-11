@@ -19,6 +19,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.24.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 
     implementation("io.javalin:javalin-bundle:6.1.3")
     implementation("io.javalin:javalin:6.1.3")
@@ -30,6 +31,10 @@ dependencies {
 
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("com.h2database:h2:2.2.220")
+
+    implementation("com.konghq:unirest-java:3.13.6")
+
+    implementation("org.jsoup:jsoup:1.15.4")
 }
 
 tasks.test {
