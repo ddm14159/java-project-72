@@ -44,7 +44,7 @@
 
 <div class="container my-4 w-75">
     @if(page != null && page.getFlash() != null)
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-${page.getFlashType()} alert-dismissible fade show" role="alert">
             ${page.getFlash()}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>

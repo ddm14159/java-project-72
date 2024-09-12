@@ -27,7 +27,9 @@ public class UrlsController {
         var lastChecks = UrlCheckRepository.getLastChecks();
         var page = new UrlsPage(urls, lastChecks);
         String flash = ctx.consumeSessionAttribute("flash");
+        String flashType = ctx.consumeSessionAttribute("flashType");
         page.setFlash(flash);
+        page.setFlashType(flashType);
 
         ctx.render("urls/index.jte", model("page", page));
     }
@@ -44,8 +46,10 @@ public class UrlsController {
 
     public static void build(Context ctx) {
         String flash = ctx.consumeSessionAttribute("flash");
+        String flashType = ctx.consumeSessionAttribute("flashType");
         var page = new BasePage();
         page.setFlash(flash);
+        page.setFlashType(flashType);
 
         ctx.render("urls/build.jte", model("page", page));
     }
@@ -69,16 +73,19 @@ public class UrlsController {
 
             if (UrlRepository.find(parsedUrl).isPresent()) {
                 ctx.sessionAttribute("flash", "Страница уже существует");
+                ctx.sessionAttribute("flashType", "primary");
                 ctx.redirect(NamedRoutes.buildPath());
             } else {
                 var url = new Url(parsedUrl);
                 UrlRepository.save(url);
 
                 ctx.sessionAttribute("flash", "Страница успешно добавлена");
+                ctx.sessionAttribute("flashType", "success");
                 ctx.redirect(NamedRoutes.urlsPath());
             }
-        } catch (URISyntaxException | MalformedURLException e) {
+        } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
             ctx.sessionAttribute("flash", "Некорректный URL");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.redirect(NamedRoutes.buildPath());
         }
     }
