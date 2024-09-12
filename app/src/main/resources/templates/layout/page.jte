@@ -42,7 +42,7 @@
     </div>
 </nav>
 
-<div class="container my-4">
+<div class="container my-4 w-75">
     @if(page != null && page.getFlash() != null)
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             ${page.getFlash()}
