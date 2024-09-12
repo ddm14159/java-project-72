@@ -31,7 +31,7 @@ public class App {
     public static Javalin getApp() throws IOException, SQLException {
         var dataSource = DataSourceConfig.getDataSource();
 
-        var sql = Utils.readResourceFile("db/schema.sql");
+        var sql = Utils.readResourceFile("schema.sql");
 
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
@@ -51,6 +51,11 @@ public class App {
         app.post(NamedRoutes.urlsPath(), UrlsController::create);
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
         app.post(NamedRoutes.checksPath("{id}"), UrlsController::check);
+
+        app.exception(SQLException.class, (e, ctx) -> {
+            ctx.status(500).result("Internal server error: database issue.");
+            log.error("Database error occurred", e);
+        });
 
         return app;
     }
