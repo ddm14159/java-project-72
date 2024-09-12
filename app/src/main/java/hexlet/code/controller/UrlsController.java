@@ -12,9 +12,12 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.http.Context;
 import io.javalin.http.NotFoundResponse;
+
+import java.net.MalformedURLException;
 import java.net.URI;
-import java.security.InvalidParameterException;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
+
 import kong.unirest.Unirest;
 import org.jsoup.Jsoup;
 
@@ -40,20 +43,21 @@ public class UrlsController {
     }
 
     public static void build(Context ctx) {
-        var page = new BasePage();
         String flash = ctx.consumeSessionAttribute("flash");
+        var page = new BasePage();
         page.setFlash(flash);
 
         ctx.render("urls/build.jte", model("page", page));
     }
 
     public static void create(Context ctx) throws SQLException {
-        try {
-            var name = ctx.formParam("url");
-            if (name == null) {
-                ctx.redirect(NamedRoutes.urlsPath());
-            }
+        var name = ctx.formParam("url");
 
+        if (name == null) {
+            ctx.redirect(NamedRoutes.urlsPath());
+        }
+
+        try {
             var uri = new URI(name);
             var rawUrl = uri.toURL();
 
@@ -73,7 +77,7 @@ public class UrlsController {
                 ctx.sessionAttribute("flash", "Страница успешно добавлена");
                 ctx.redirect(NamedRoutes.urlsPath());
             }
-        } catch (Exception e) {
+        } catch (URISyntaxException | MalformedURLException e) {
             ctx.sessionAttribute("flash", "Некорректный URL");
             ctx.redirect(NamedRoutes.buildPath());
         }
@@ -81,13 +85,9 @@ public class UrlsController {
 
     public static void check(Context ctx) throws SQLException {
         var id = ctx.pathParamAsClass("id", Long.class).get();
-        var optionalUrl = UrlRepository.find(id);
+        var url = UrlRepository.find(id)
+                .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
 
-        if (optionalUrl.isEmpty()) {
-            throw new InvalidParameterException("No url found in DB with id " + id);
-        }
-
-        var url = optionalUrl.get();
         var response = Unirest.get(url.getName()).asString();
         var status = response.getStatus();
         var body = response.getBody();
@@ -102,8 +102,7 @@ public class UrlsController {
 
         var check = new UrlCheck(id, status, title, h1, description);
         UrlCheckRepository.save(check);
+
         ctx.redirect(NamedRoutes.urlPath(id));
-        System.out.println(response.getBody());
-        System.out.println(status);
     }
 }

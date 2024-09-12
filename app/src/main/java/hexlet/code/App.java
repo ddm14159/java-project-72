@@ -32,7 +32,6 @@ public class App {
         var dataSource = DataSourceConfig.getDataSource();
 
         var sql = Utils.readResourceFile("db/schema.sql");
-        log.info(sql);
 
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
@@ -53,12 +52,16 @@ public class App {
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
         app.post(NamedRoutes.checksPath("{id}"), UrlsController::check);
 
+        app.exception(SQLException.class, (e, ctx) -> {
+            ctx.status(500).result("Internal server error: database issue.");
+            log.error("Database error occurred", e);
+        });
+
         return app;
     }
 
     public static void main(String[] args) throws SQLException, IOException {
         var app = getApp();
-
         app.start(getPort());
     }
 }

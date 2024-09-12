@@ -1,5 +1,6 @@
 @import hexlet.code.dto.urls.UrlPage
 @import hexlet.code.util.NamedRoutes
+@import hexlet.code.util.Utils;
 @param UrlPage page
 
 @template.layout.page(
@@ -24,7 +25,7 @@ content = @`
                     </tr>
                     <tr>
                         <th>Дата создания</th>
-                        <td>${page.getUrl().getCreatedAt().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))}</td>
+                        <td>${Utils.getParsedDate(page.getUrl().getCreatedAt())}</td>
                     </tr>
                     </tbody>
                 </table>
