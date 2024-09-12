@@ -3,15 +3,15 @@ DROP TABLE IF EXISTS urls;
 
 CREATE TABLE urls
 (
-    id        BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id        BIGSERIAL PRIMARY KEY,
     name      VARCHAR(255) NOT NULL,
     created_at TIMESTAMP
 );
 
 CREATE TABLE url_checks
 (
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    url_id      INT,
+    id          BIGSERIAL PRIMARY KEY,
+    url_id      BIGINT,
     status_code INT,
     title       VARCHAR(255),
     h1          VARCHAR(255),
