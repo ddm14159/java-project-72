@@ -21,7 +21,7 @@ public class Url {
         this.name = name;
     }
 
-    public List<UrlCheck> getChecks() throws SQLException {
+    public final List<UrlCheck> getChecks() throws SQLException {
         return UrlCheckRepository.findByUrl(this.id);
     }
 }
