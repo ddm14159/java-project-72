@@ -1,6 +1,7 @@
 package hexlet.code.repository;
 
 import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
@@ -11,6 +12,6 @@ public class DataSourceConfig {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
 
-        return new com.zaxxer.hikari.HikariDataSource(config);
+        return new HikariDataSource(config);
     }
 }
