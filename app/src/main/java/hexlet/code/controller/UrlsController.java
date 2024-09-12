@@ -96,9 +96,10 @@ public class UrlsController {
         var h1 = document.selectFirst("h1") != null
                 ? document.selectFirst("h1").text()
                 : "";
-        var description = document.selectFirst("meta[name=description]") != null
-                ? document.selectFirst("meta[name=description]").text()
-                : "";
+        var metaTag = document.selectFirst("meta[name=description]");
+        var description = metaTag != null && metaTag.hasAttr("content")
+                ? metaTag.attr("content")
+                : "ааа";
 
         var check = new UrlCheck(id, status, title, h1, description);
         UrlCheckRepository.save(check);
