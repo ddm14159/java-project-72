@@ -10,7 +10,8 @@ public class DataSourceConfig {
 
     public static DataSource getDataSource() {
         String jdbcUrl = System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:h2:mem:project;DB_CLOSE_DELAY=-1");
-
+        log.info("test2");
+        log.info(jdbcUrl);
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
 

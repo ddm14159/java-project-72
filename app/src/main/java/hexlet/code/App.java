@@ -29,8 +29,9 @@ public class App {
     }
 
     public static Javalin getApp() throws IOException, SQLException {
+        log.info("test1");
         var dataSource = DataSourceConfig.getDataSource();
-
+        log.info("test4");
         var sql = Utils.readResourceFile("schema.sql");
         log.info(sql);
 
