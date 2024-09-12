@@ -46,7 +46,7 @@ public class AppTest {
         JavalinTest.test(app, (server, client) -> {
             var response = client.get(NamedRoutes.rootPath());
             assertThat(response.code()).isEqualTo(200);
-            assertThat(response.body().string()).contains("Enter URL for Analysis");
+            assertThat(response.body().string()).contains("Ссылка");
         });
     }
 
