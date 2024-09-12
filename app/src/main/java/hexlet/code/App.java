@@ -32,6 +32,7 @@ public class App {
         var dataSource = DataSourceConfig.getDataSource();
 
         var sql = Utils.readResourceFile("schema.sql");
+        log.info(sql);
 
         try (var connection = dataSource.getConnection();
              var statement = connection.createStatement()) {
