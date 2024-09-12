@@ -22,10 +22,9 @@
 </head>
 <body class="d-flex flex-column vh-100">
 
-<!-- Навигационная панель -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="${NamedRoutes.urlsPath()}">Page Analyzer</a>
+        <a class="navbar-brand" href="${NamedRoutes.urlsPath()}">Анализатор страниц</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,10 +32,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="${NamedRoutes.rootPath()}">Home</a>
+                    <a class="nav-link" href="${NamedRoutes.rootPath()}">Главная</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${NamedRoutes.urlsPath()}">All URLs</a>
+                    <a class="nav-link" href="${NamedRoutes.urlsPath()}">Сайты</a>
                 </li>
             </ul>
         </div>

@@ -52,11 +52,6 @@ public class App {
         app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
         app.post(NamedRoutes.checksPath("{id}"), UrlsController::check);
 
-        app.exception(SQLException.class, (e, ctx) -> {
-            ctx.status(500).result("Internal server error: database issue.");
-            log.error("Database error occurred", e);
-        });
-
         return app;
     }
 
