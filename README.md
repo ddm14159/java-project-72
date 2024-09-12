@@ -5,3 +5,19 @@
 
 
 https://java-project-72-v1op.onrender.com/
+
+
+# URL Analyzer
+
+URL Analyzer is a web application that allows users to submit URLs for analysis and retrieves information about the provided web page. The application uses Javalin for the web framework, PostgreSQL for the database, and Jsoup for parsing HTML content.
+
+## Features
+
+- Submit a URL for analysis
+- Check and display the following information about a web page:
+  - Page title
+  - First `<h1>` element
+  - Description meta tag
+  - HTTP status code
+- Save the analysis results in the database
+- List and manage analyzed URLs
