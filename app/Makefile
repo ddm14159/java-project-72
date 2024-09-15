@@ -4,7 +4,7 @@ run-dist:
 	./build/install/app/bin/app
 
 setup:
-	./gradlew wrapper --gradle-version 8.3
+	./gradlew wrapper --gradle-version 8.5
 
 clean:
 	./gradlew clean
