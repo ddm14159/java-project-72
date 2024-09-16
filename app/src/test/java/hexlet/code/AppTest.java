@@ -79,9 +79,11 @@ public class AppTest {
             var checkUrl = UrlCheckRepository.findByUrl(url.getId());
             var title = checkUrl.get(0).getTitle();
             var h1 = checkUrl.get(0).getH1();
+            var description = checkUrl.get(0).getDescription();
 
             assertThat(title).isEqualTo("Some test title");
             assertThat(h1).isEqualTo("Test header");
+            assertThat(description).isEqualTo("Test description");
         });
     }
 }
